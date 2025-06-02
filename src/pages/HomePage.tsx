@@ -1,4 +1,4 @@
-// pages/HomePage.tsx
+
 import { useState } from 'react';
 import Container from '@mui/material/Container';
 import { Box, Typography, CircularProgress, Pagination } from '@mui/material';
@@ -6,7 +6,7 @@ import { SearchInput } from '../components/SearchInput';
 import { useSearchPhotos } from '../hooks/useSearchPhotos';
 import { useDebounce } from '../hooks/useDebounce';
 import ImageCard from '../components/ImageCard';
-import type { UnsplashPhoto } from '../types/unsplashinterface ';
+import type { UnsplashPhoto } from '../types/unsplashinterface';
 
 const HomePage = () => {
   const [query, setQuery] = useState('');
@@ -47,7 +47,7 @@ const HomePage = () => {
               <Pagination
                 page={page}
                 onChange={(_, value) => setPage(value)}
-                count={Math.min(10, data.total_pages)}
+                count={Math.min(50, data.total_pages)}
                 color="secondary"
               />
             </Box>

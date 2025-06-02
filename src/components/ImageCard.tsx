@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { PhotoModal } from './PhotoModal';
-import type { UnsplashPhoto } from '../types/unsplashinterface ';
+import type { UnsplashPhoto } from '../types/unsplashinterface';
 
 interface Props {
   photo: UnsplashPhoto;
@@ -17,11 +17,18 @@ const ImageCard: React.FC<Props> = ({ photo }) => {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
 
+  const handleOpen = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    setOpen(true);
+  };
+
   return (
     <>
       <Card>
         <CardActionArea
-          onClick={() => setOpen(true)}
+          onClick={handleOpen}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         >
