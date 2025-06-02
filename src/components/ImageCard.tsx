@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { PhotoModal } from './PhotoModal';
-import type { UnsplashPhoto } from '../types/unsplashinterface';
+import type { UnsplashPhoto } from '../types/unsplashinterface ';
 
 interface Props {
   photo: UnsplashPhoto;

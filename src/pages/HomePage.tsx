@@ -5,8 +5,8 @@ import { Box, Typography, CircularProgress, Pagination } from '@mui/material';
 import { SearchInput } from '../components/SearchInput';
 import { useSearchPhotos } from '../hooks/useSearchPhotos';
 import { useDebounce } from '../hooks/useDebounce';
-import type { UnsplashPhoto } from '../types/unsplashinterface';
 import ImageCard from '../components/ImageCard';
+import type { UnsplashPhoto } from '../types/unsplashinterface ';
 
 const HomePage = () => {
   const [query, setQuery] = useState('');
