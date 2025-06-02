@@ -1,31 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { unsplashApi } from '../api/unsplash';
+import type { UnsplashSearchResponse } from '../types/unsplashinterface ';
 
-type UnsplashPhoto = {
-  id: string;
-  alt_description: string;
-  urls: {
-    small: string;
-    full: string;
-    regular: string;
-  };
-};
-
-type UnsplashResponse = {
-  results: UnsplashPhoto[];
-  total_pages: number;
-};
-
-const cache = new Map<string, UnsplashResponse>();
+const cache = new Map<string, UnsplashSearchResponse>();
 
 export const useSearchPhotos = (query: string, page: number) => {
   const key = `${query}-${page}`;
 
-  return useQuery<UnsplashResponse>({
+  return useQuery<UnsplashSearchResponse>({
     queryKey: ['search', key],
     queryFn: async () => {
       if (cache.has(key)) return cache.get(key)!;
-      const res = await unsplashApi.get<UnsplashResponse>('/search/photos', {
+      const res = await unsplashApi.get<UnsplashSearchResponse>('/search/photos', {
         params: { query, per_page: 20, page },
       });
       cache.set(key, res.data);

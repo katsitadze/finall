@@ -1,16 +1,7 @@
-import { useState } from 'react';
-import Container from '@mui/material/Container';
-import { SearchInput } from './components/SearchInput';
-import { PhotoGrid } from './components/PhotoGrid';
+import HomePage from './pages/HomePage';
 
-function App() {
-  const [query, setQuery] = useState('');
-  return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      <SearchInput value={query} onChange={setQuery} />
-      <PhotoGrid query={query} />
-    </Container>
-  );
-}
+const App = () => {
+  return <HomePage />;
+};
 
 export default App;
