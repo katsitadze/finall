@@ -18,10 +18,10 @@ export const PaginationBar = ({ page, totalPages, onPageChange }: Props) => (
       showLastButton
       sx={{
         '& .MuiPaginationItem-root': {
-          color: 'white',
+          color: 'grei',
           '&.Mui-selected': {
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            color: 'white',
+            backgroundColor: 'rgba(175, 12, 12, 0.91)',
+            color: 'grei',
           },
         },
       }}

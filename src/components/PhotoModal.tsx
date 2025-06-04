@@ -5,10 +5,26 @@ import {
   DialogContent,
   Typography,
   Box,
+  Button,
+  DialogActions,
+  IconButton,
 } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import type { PhotoModalProps } from '../types/photomodalInterface';
+import { useFavorites } from '../context/FavoritesContext';
+import { downloadImage } from '../util/DownloadHelper';
 
 export const PhotoModal: React.FC<PhotoModalProps> = ({ open, onClose, photo }) => {
+  const { toggleFavorite, isFavorite } = useFavorites();
+  const favorite = isFavorite(photo);
+
+  const handleDownload = () => {
+    if (!photo.urls.full) return;
+    downloadImage(photo.urls.full, `${photo.id}.jpg`);
+  };
+
   return (
     <Dialog
       open={open}
@@ -17,14 +33,23 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({ open, onClose, photo }) 
       fullWidth
       PaperProps={{
         sx: {
-          background: 'linear-gradient(145deg, rgb(199, 198, 245), rgb(180, 176, 211), rgb(124, 117, 218))',
+          background:
+            'linear-gradient(145deg, rgb(199, 198, 245), rgb(180, 176, 211), rgb(124, 117, 218))',
           boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4)',
           borderRadius: '16px',
           color: 'black',
         },
       }}
     >
-      <DialogTitle>{photo.alt_description || 'Photo Details'}</DialogTitle>
+      <DialogTitle
+        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+      >
+        {photo.alt_description || 'Photo Details'}
+        <IconButton onClick={() => toggleFavorite(photo)} color={favorite ? 'error' : 'default'}>
+          {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
+      </DialogTitle>
+
       <DialogContent>
         <Box
           component="img"
@@ -40,10 +65,16 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({ open, onClose, photo }) 
         <Typography variant="body2">
           <strong>Resolution:</strong> {photo.width} x {photo.height}
         </Typography>
-        <Typography variant="body2">
-          <strong>Downloads:</strong> {photo.downloads ?? 'N/A'}
-        </Typography>
       </DialogContent>
+
+      <DialogActions>
+        <Button onClick={handleDownload} variant="contained" color="primary">
+          Download
+        </Button>
+        <Button onClick={onClose} variant="outlined" color="secondary">
+          Close
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

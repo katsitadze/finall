@@ -1,4 +1,4 @@
-import type { UnsplashPhoto } from "./unsplashinterface ";
+import type { UnsplashPhoto } from "./unsplashinterface";
 
 export interface PhotoModalProps {
   open: boolean;

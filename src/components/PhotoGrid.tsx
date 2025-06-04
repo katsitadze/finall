@@ -6,7 +6,7 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import type { UnsplashPhoto } from '../types/unsplashinterface ';
+import type { UnsplashPhoto } from '../types/unsplashinterface';
 
 interface Props {
   open: boolean;
