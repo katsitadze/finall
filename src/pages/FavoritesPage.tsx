@@ -1,38 +1,60 @@
-import { Box, Container, Typography, Button } from '@mui/material';
+import { Box, Container, Typography, Pagination } from '@mui/material';
 import { useFavorites } from '../context/FavoritesContext';
-import ImageCard from '../components/ImageCard';
-import { useNavigate } from 'react-router-dom';
+import BackButton from './favoritpage/BackButton';
+import { FavoritesList } from './favoritpage/FavoritesList';
+import { useState } from 'react';
+
+const ITEMS_PER_PAGE = 20;
 
 const FavoritesPage = () => {
   const { favorites } = useFavorites();
-  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+
+  const totalPages = Math.ceil(favorites.length / ITEMS_PER_PAGE);
+  const startIndex = (page - 1) * ITEMS_PER_PAGE;
+  const paginatedPhotos = favorites.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <Box sx={{ backgroundColor: 'rgb(80, 58, 80)', minHeight: '100vh', py: 4 }}>
+    <Box sx={{ backgroundColor: 'rgb(86, 110, 79)', minHeight: '100vh', py: 4 }}>
       <Container maxWidth="md">
         <Typography variant="h4" color="white" gutterBottom>
           My Favorites
         </Typography>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{ mb: 2 }}
-          onClick={() => navigate('/')}
-        >
-          Back to Home
-        </Button>
+        <BackButton />
 
         {favorites.length === 0 ? (
           <Typography color="white">No favorite photos yet.</Typography>
         ) : (
-          <Box display="flex" flexWrap="wrap" justifyContent="center" gap={2}>
-            {favorites.map((photo) => (
-              <Box key={photo.id} width={{ xs: '100%', sm: '48%', md: '30%' }}>
-                <ImageCard photo={photo} />
-              </Box>
-            ))}
-          </Box>
+          <>
+            <FavoritesList photos={paginatedPhotos} />
+
+            <Box mt={4} display="flex" justifyContent="center">
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={handlePageChange}
+                siblingCount={1}
+                boundaryCount={1}
+                showFirstButton
+                showLastButton
+                sx={{
+                  '& .MuiPaginationItem-root': {
+                    color: 'white',
+                    '&.Mui-selected': {
+                      backgroundColor: '#ffffff55',
+                      color: 'black',
+                    },
+                  },
+                }}
+              />
+            </Box>
+          </>
         )}
       </Container>
     </Box>

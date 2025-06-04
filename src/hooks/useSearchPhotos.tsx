@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { unsplashApi } from '../api/unsplash';
-import type { UnsplashSearchResponse } from '../types/unsplashinterface ';
+import type { UnsplashSearchResponse } from '../types/unsplashinterface';
 
 const cache = new Map<string, UnsplashSearchResponse>();
 

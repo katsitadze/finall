@@ -24,7 +24,7 @@ export const PhotoModal: React.FC<Props> = ({ open, onClose, photo }) => {
       PaperProps={{
         sx: {
           background:
-            'linear-gradient(145deg, rgb(199, 198, 245), rgb(180, 176, 211), rgb(124, 117, 218))',
+            'linear-gradient(145deg, rgb(77, 116, 101), rgb(73, 94, 75), rgb(70, 92, 74))',
           boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4)',
           borderRadius: '16px',
           color: 'black',

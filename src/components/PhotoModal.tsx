@@ -20,9 +20,11 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({ open, onClose, photo }) 
   const { toggleFavorite, isFavorite } = useFavorites();
   const favorite = isFavorite(photo);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!photo.urls.full) return;
-    downloadImage(photo.urls.full, `${photo.id}.jpg`);
+
+    await downloadImage(photo.urls.full, `${photo.id}.jpg`);
+    onClose(); 
   };
 
   return (
@@ -31,18 +33,29 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({ open, onClose, photo }) 
       onClose={onClose}
       maxWidth="md"
       fullWidth
-      PaperProps={{
-        sx: {
-          background:
-            'linear-gradient(145deg, rgb(199, 198, 245), rgb(180, 176, 211), rgb(124, 117, 218))',
-          boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4)',
-          borderRadius: '16px',
-          color: 'black',
+      slotProps={{
+        paper: {
+          sx: {
+            background:
+              'linear-gradient(145deg, rgb(95, 126, 97), rgb(125, 155, 132), rgb(117, 218, 147))',
+            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4)',
+            borderRadius: '16px',
+            color: 'black',
+          },
         },
       }}
     >
       <DialogTitle
-        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          bgcolor: 'rgba(255, 255, 255, 0.35)',  
+          borderRadius: 2,                        
+          padding: '8px 16px',
+          fontWeight: 'bold',
+          color: 'black',
+        }}
       >
         {photo.alt_description || 'Photo Details'}
         <IconButton onClick={() => toggleFavorite(photo)} color={favorite ? 'error' : 'default'}>
@@ -59,22 +72,46 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({ open, onClose, photo }) 
           sx={{ borderRadius: 2 }}
           alt={photo.alt_description || 'Photo'}
         />
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{ color: 'white' }}>
           <strong>Photographer:</strong> {photo.user.name}
         </Typography>
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{ color: 'white' }}>
           <strong>Resolution:</strong> {photo.width} x {photo.height}
         </Typography>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={handleDownload} variant="contained" color="primary">
-          Download
-        </Button>
-        <Button onClick={onClose} variant="outlined" color="secondary">
-          Close
-        </Button>
-      </DialogActions>
+  <Button
+    onClick={handleDownload}
+    variant="contained"
+    sx={{
+      mb: 2,
+      backgroundColor: '#444444',
+      color: 'white',
+      '&:hover': {
+        backgroundColor: '#333333',
+      },
+    }}
+  >
+    Download
+  </Button>
+  <Button
+    onClick={onClose}
+    variant="outlined"
+    sx={{
+      mb: 2,
+      borderColor: '#444444',
+      color: '#444444',
+      '&:hover': {
+        borderColor: '#333333',
+        backgroundColor: 'rgba(68, 68, 68, 0.1)',
+        color: '#333333',
+      },
+    }}
+  >
+    Close
+  </Button>
+</DialogActions>
     </Dialog>
   );
 };

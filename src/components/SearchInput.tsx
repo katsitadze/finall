@@ -19,7 +19,7 @@ export const SearchInput: React.FC<Props> = ({
   return (
     <TextField
       autoFocus
-      label="Search Unsplash"
+      label=""
       variant="outlined"
       fullWidth
       margin="normal"
@@ -31,13 +31,21 @@ export const SearchInput: React.FC<Props> = ({
           onClose();
         }
       }}
-      InputLabelProps={{ style: { color: '#ffffff' } }} // Label color
-      InputProps={{
-        style: {
-          color: '#ffffff',                // Input text color
-          backgroundColor: '#2c2f4a',      // Input background
-        },
-      }}
+  
+    slotProps={{
+      input: {
+       sx: {
+      color: 'black',
+      backgroundColor: 'rgba(205, 221, 214, 0.91)',
+      },
+     },
+  inputLabel: {
+    sx: {
+      color: 'black',
+    },
+  },
+}}
+
       sx={{
         '& .MuiOutlinedInput-root': {
           '& fieldset': {

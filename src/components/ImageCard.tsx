@@ -11,7 +11,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useFavorites } from '../context/FavoritesContext';
 import { PhotoModal } from './PhotoModal';
-import { useSnackbar } from 'notistack';  // Import notistack hook
+import { useFavoriteSnackbar } from '../hooks/useFavoriteSnackbar'; // ჰუკი, რომელიც snackbar-ის ლოგიკას ინახავს
 import type { UnsplashPhoto } from '../types/unsplashinterface';
 
 interface Props {
@@ -22,7 +22,7 @@ const ImageCard: React.FC<Props> = ({ photo }) => {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
   const { toggleFavorite, isFavorite } = useFavorites();
-  const { enqueueSnackbar } = useSnackbar();  // Snackbar function
+  const { notifyFavoriteChange } = useFavoriteSnackbar();
 
   const handleOpen = () => {
     if (document.activeElement instanceof HTMLElement) {
@@ -31,49 +31,46 @@ const ImageCard: React.FC<Props> = ({ photo }) => {
     setOpen(true);
   };
 
-  const handleToggleFavorite = (photo: UnsplashPhoto) => {
+  const handleToggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     toggleFavorite(photo);
-    const favorited = isFavorite(photo);
-    enqueueSnackbar(
-      favorited ? 'Removed from favorites' : 'Added to favorites',
-      { variant: favorited ? 'warning' : 'success' }
-    );
+    notifyFavoriteChange(!isFavorite(photo)); // უკვე ტoggled სტატუსი
   };
+
+  const favorited = isFavorite(photo);
 
   return (
     <>
       <Card>
         <CardActionArea
-  component="div"  // აქ გაძლევს div-ის გამოყენების საშუალებას button-ის ნაცვლად
-  onClick={handleOpen}
-  onMouseEnter={() => setHovered(true)}
-  onMouseLeave={() => setHovered(false)}
-  sx={{ position: 'relative' }}
->
+          component="div"
+          onClick={handleOpen}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          sx={{ position: 'relative' }}
+        >
           <CardMedia
             component="img"
             height={200}
             image={photo.urls.small}
             alt={photo.alt_description ?? 'Image'}
           />
-          {/* Heart Icon */}
+
           <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              handleToggleFavorite(photo);
-            }}
+            onClick={handleToggleFavorite}
             sx={{
               position: 'absolute',
               top: 8,
               right: 8,
-              color: isFavorite(photo) ? 'red' : 'white',
+              color: favorited ? 'red' : 'white',
               backgroundColor: 'rgba(0,0,0,0.3)',
               '&:hover': { backgroundColor: 'rgba(0,0,0,0.5)' },
             }}
             aria-label="toggle favorite"
           >
-            {isFavorite(photo) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            {favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
+
           {hovered && (
             <Box
               position="absolute"

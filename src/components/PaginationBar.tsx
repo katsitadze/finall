@@ -16,15 +16,25 @@ export const PaginationBar = ({ page, totalPages, onPageChange }: Props) => (
       boundaryCount={1}
       showFirstButton
       showLastButton
-      sx={{
-        '& .MuiPaginationItem-root': {
-          color: 'grei',
-          '&.Mui-selected': {
-            backgroundColor: 'rgba(175, 12, 12, 0.91)',
-            color: 'grei',
-          },
-        },
-      }}
+     sx={{
+  '& .MuiPaginationItem-root': {
+    color: '#555',  
+    fontWeight: 500,
+    fontSize: '1rem',
+    '&:hover': {
+      backgroundColor: 'rgba(100, 181, 246, 0.2)', 
+    },
+    '&.Mui-selected': {
+      backgroundColor: '#1976d2',  
+      color: 'white',           
+      fontWeight: 700,
+    },
+  },
+  '& .MuiPagination-ul': {
+    gap: '8px', 
+  },
+}}
+
     />
   </Box>
 );

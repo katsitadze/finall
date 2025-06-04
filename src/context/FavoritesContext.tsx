@@ -11,7 +11,7 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 
 export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [favorites, setFavorites] = useState<UnsplashPhoto[]>(() => {
-    // 초기 მდგომარეობის მისაღებად პირდაპირ თუ localStorage-შია
+ 
     try {
       const stored = localStorage.getItem('favorites');
       return stored ? JSON.parse(stored) : [];
